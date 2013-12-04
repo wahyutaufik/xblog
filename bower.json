@@ -1,0 +1,9 @@
+{
+  "name": "xblog",
+  "version": "0.0.1",
+  "description": "Xinix Blog",
+  "dependencies": {
+    "naked": "git@xinixhost.com:internal/naked.git",
+    "components-font-awesome": "git://github.com/components/font-awesome.git#~4.0.3"
+  }
+}

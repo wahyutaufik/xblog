@@ -1,0 +1,63 @@
+{
+    "name": "xblog",
+    "version": "0.0.1",
+    "description": "Xinix Blog",
+    "repository": {},
+    "dependencies": {
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-compass": "~0.6.0",
+        "grunt": "~0.4.2"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-compass": "~0.6.0",
+        "grunt-contrib-copy": "~0.4.1"
+    },
+    "pax": {
+        "grunt": {
+            "clean": {
+                "dist": [
+                  "www/fonts",
+                  "www/css"
+                ]
+            },
+            "build": {
+                "dist": [
+                  "compass",
+                  "copy"
+                ]
+            },
+            "compass": {
+                "dist": {
+                    "options": {
+                        "sassDir": "assets/scss",
+                        "cssDir": "www/css"
+                    }
+                }
+            },
+            "copy": {
+                "naked": {
+                    "src": "bower_components/naked/css/*",
+                    "dest": "www/css/",
+                    "expand": true,
+                    "flatten": true,
+                    "filter": "isFile"
+                },
+                "font-awesome-css": {
+                    "src": "bower_components/font-awesome/css/*",
+                    "dest": "www/css/",
+                    "expand": true,
+                    "flatten": true,
+                    "filter": "isFile"
+                },
+                "font-awesome-fonts": {
+                    "src": "bower_components/font-awesome/fonts/*",
+                    "dest": "www/fonts/",
+                    "expand": true,
+                    "flatten": true,
+                    "filter": "isFile"
+                }
+            }
+        }
+    }
+}
