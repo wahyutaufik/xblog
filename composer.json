@@ -1,6 +1,6 @@
 {
-    "name": "jafar/account",
-    "description": "Account Management",
+    "name": "xinix/blog",
+    "description": "Blog",
     "version": "0.0.1",
     "autoload": {
         "psr-0": {
@@ -10,7 +10,7 @@
         }
     },
     "require": {
-        "xinix-technology/norm": ">=0.0.4",
-        "xinix-technology/bono": ">=0.0.4"
+        "xinix-technology/norm": "~0.1.0",
+        "xinix-technology/bono": "~0.1.0"
     }
 }

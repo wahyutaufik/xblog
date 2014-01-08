@@ -9,8 +9,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <link rel="shortcut icon" href="<?php echo \Bono\Helper\URL::base('img/favicon.ico') ?>" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="<?php echo \Bono\Helper\URL::base('img/favicon.ico') ?>" /> 
-    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo \Bono\Helper\URL::base('img/favicon.ico') ?>" /> 
+    <link rel="apple-touch-icon" href="<?php echo \Bono\Helper\URL::base('img/favicon.ico') ?>" />
+    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo \Bono\Helper\URL::base('img/favicon.ico') ?>" />
 
     <link rel="stylesheet" href="<?php echo \Bono\Helper\URL::base('css/naked.css') ?>">
     <link rel="stylesheet" href="<?php echo \Bono\Helper\URL::base('css/font-awesome.css') ?>">
@@ -23,17 +23,15 @@ use \App\Auth\Auth;
 
 <body>
     <div class="navbar">
-        <?php if (Auth::check()): ?>
-            <ul class="button-group centered">
-                <li><a href="<?php echo URL::site('/') ?>" class="button">Home</a></li>
-                <li><a href="<?php echo URL::site('/user') ?>" class="button">User</a></li>
+        <ul class="button-group centered">
+            <li><a href="<?php echo URL::site('/') ?>" class="button">Blog</a></li>
+            <?php if(Auth::check()): ?>
                 <li><a href="<?php echo URL::site('/logout') ?>" class="button">Logout</a></li>
-            </ul>
-        <?php else: ?>
-            <ul class="button-group centered">
-                <li>Welcome</li>
-            </ul>
-        <?php endif ?>
+                <li><a href="<?php echo URL::site('/entry/create') ?>" class="button">Create Entry</a></li>
+            <?php else: ?>
+                <li><a href="<?php echo URL::site('/login') ?>" class="button">Login</a></li>
+            <?php endif ?>
+        </ul>
     </div>
     <div style="padding-top: 60px; margin: 0 5px;">
         <?php if (isset($flash['error']) || isset($flash['info'])): ?>
@@ -52,7 +50,16 @@ use \App\Auth\Auth;
             <?php endif ?>
         </div>
         <?php endif ?>
-        <?php echo $body ?>
+        <div class="row">
+            <div class="span-2">
+                <?php echo @$tree; ?>
+            </div>
+            <div class="span-10">
+                <div class="">
+                    <?php echo @$content; ?>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

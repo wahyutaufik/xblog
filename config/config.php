@@ -14,6 +14,7 @@ return array(
     'bono.providers' => array(
         '\\Bono\\Provider\\LanguageProvider',
         '\\Norm\\Provider\\NormProvider',
+        '\\App\\Provider\\BlogProvider',
     ),
     'bono.middlewares' => array(
         '\\Bono\\Middleware\\ControllerMiddleware',
@@ -42,20 +43,35 @@ return array(
         ),
     ),
     'norm.collections' => array(
+        'default' => array(
+            'observers' => array(
+                '\\Norm\\Observer\\Ownership',
+                '\\Norm\\Observer\\Timestampable',
+            ),
+        ),
         'mapping' => array(
             'User' => array(
                 'schema' => array(
                     'username' => String::getInstance('username')->filter('trim|required|unique:User,username'),
-                    'password' => Password::getInstance('password')->filter('trim|confirmed|salt')
                 ),
             ),
+            'Entry' => array(
+                'schema' => array(
+                    'title' => String::getInstance('title'),
+                    'content' => String::getInstance('content'),
+                )
+            )
         ),
     ),
     'auth' => array(
         'allow' => array(
+            '/' => NULL,
             '/login' => NULL,
             '/logout' => NULL,
             '/auth' => NULL,
         ),
+    ),
+    'component.tree' => array(
+        'mapping' => array(),
     ),
 );

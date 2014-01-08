@@ -18,8 +18,4 @@ $app = new \Bono\App(array(
     'mode' => 'development',
 ));
 
-$app->get('/', function() use ($app) {
-    $app->render('login');
-});
-
 $app->run();

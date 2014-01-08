@@ -2,44 +2,53 @@
 
 namespace App\Component;
 
+use \Bono\Helper\URL;
+use Norm\Norm;
+use Norm\Collection;
+use Norm\Model;
+
 class Form {
-    protected $app;
-    protected $clazz;
-    protected $schema;
-    protected $config;
-    protected $globalConfig;
 
-    public function __construct($clazz) {
+    public function __construct() {
         $this->app = \Bono\App::getInstance();
-        $this->clazz = $clazz;
-
-        $this->schema = \Norm\Norm::factory($clazz)->schema();
-
-        $this->globalConfig = $this->app->config('component.form');
-        $this->config = (isset($this->globalConfig['mapping'][$this->clazz])) ? $this->globalConfig['mapping'][$this->clazz] : NULL;
     }
 
-    public function renderReadonlyFields($entry) {
-        foreach ($this->schema as $field) {
-            $field['readonly'] = true;
+    public function show($id = NULL) {
+        $title = '';
+        $content = '';
+
+        if (! is_null($id)) {
+            $collection = Norm::factory('Entry');
+            $model = $collection->findOne($id);
+            $title = $model->get('title');
+            $content = $model->get('content');
         }
 
-        return $this->renderFields($entry);
-    }
-
-    public function renderFields($entry) {
-        $html = '';
-        $iterator = $this->config ?: $this->schema;
-
-        foreach ($iterator as $key => $v) {
-            $field = $this->schema[$key];
-            $html .= '<div class="row">';
-            $html .= '<div class="span-12">';
-            $html .= $field->label();
-            $html .= $field->input(@$entry[$field['name']], @$entry);
-            $html .= '</div>';
-            $html .= '</div>';
-        }
+        $html = '<form method="POST" action="">';
+        $html .= '<fieldset>';
+        $html .= '<div class="row"><div class="span-12">';
+        $html .=
+            '<div class="wrapper">
+                <label>Title</label>
+                <input type="text" placeholder="Title" name="title" value="'.$title.'">
+            </div>';
+        $html .= '</div></div>';
+        $html .=
+            '<div class="row">
+                <div class="wrapper">
+                    <div class="span-12">
+                        <label>Entry Content</label>
+                        <textarea placeholder="Entry Content" name="content">'.$content.'</textarea>
+                    </div>
+                </div>
+            </div>';
+        $html .=
+            '<div class="wrapper">
+                <input type="submit" value="Submit">
+                <a href="'.URL::base().'" class="button">Cancel</a>
+            </div>';
+        $html .= '</fieldset>';
+        $html .= '</form>';
 
         return $html;
     }
