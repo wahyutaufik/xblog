@@ -71,8 +71,7 @@ return array(
             '/auth' => NULL,
         ),
         'restricted' => array(
-            '/entry/create' => NULL,
-            '/entry/*/edit' => NULL,
+            '/entry/*/*' => NULL,
         ),
         'urlServiceProvider' => 'http://localhost/acc/',
     ),

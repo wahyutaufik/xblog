@@ -4,7 +4,8 @@ namespace App\Middleware;
 use App\Auth\Auth;
 
 class AuthMiddleware extends \Slim\Middleware {
-    public function inArray($string, $array) {
+    public function inArray($string, $array = array()) {
+        if (empty($array) || empty($string)) return false;
         foreach ($array as $key => $value) {
             if (fnmatch($key, $string)) {
                 return true;
@@ -59,7 +60,7 @@ class AuthMiddleware extends \Slim\Middleware {
 
         $allow = false;
 
-        if ($this->inArray($pathInfo, $config['allow']) && ! $this->inArray($pathInfo, $config['restricted'])) {
+        if ($this->inArray($pathInfo, $config['allow']) && ! $this->inArray($pathInfo, @$config['restricted'])) {
             $allow = true;
         }
 
