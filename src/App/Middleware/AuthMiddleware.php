@@ -4,6 +4,15 @@ namespace App\Middleware;
 use App\Auth\Auth;
 
 class AuthMiddleware extends \Slim\Middleware {
+    public function inArray($string, $array) {
+        foreach ($array as $key => $value) {
+            if (fnmatch($key, $string)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function call() {
         $config = $this->app->config('auth');
 
@@ -34,13 +43,6 @@ class AuthMiddleware extends \Slim\Middleware {
             $this->app->response->redirect('/');
         });
 
-        // TODO Maybe we need this one to deauth from server
-        // $this->app->get('/deauth', function() use($app, $response) {
-        //     $post = $this->app->request->post();
-        //     Auth::deauthenticate($post);
-        //     $this->app->response->redirect('/');
-        // });
-
         $this->app->get('/logout', function() use($app, $response) {
             Auth::deauthenticate();
             Auth::logout();
@@ -50,7 +52,7 @@ class AuthMiddleware extends \Slim\Middleware {
 
         $allow = false;
 
-        if (array_key_exists($pathInfo, $config['allow'])) {
+        if ($this->inArray($pathInfo, $config['allow']) && ! $this->inArray($pathInfo, $config['restricted'])) {
             $allow = true;
         }
 

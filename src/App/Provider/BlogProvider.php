@@ -7,8 +7,7 @@ use \App\Component\Form;
 use \Bono\Helper\URL;
 
 use Norm\Norm;
-use Norm\Collection;
-use Norm\Model;
+use \App\Auth\Auth;
 
 class BlogProvider extends \Bono\Provider\Provider{
     public function initialize() {
@@ -22,8 +21,9 @@ class BlogProvider extends \Bono\Provider\Provider{
 
             $html = '';
             foreach ($model as $key => $value) {
-                $html .= '<h1>'.$value->get('title').'</h1>';
+                $html .= '<a href="'.URL::site('/entry/'.$value->get('$id')).'"><h1>'.$value->get('title').'</h1></a>';
                 $html .= '<p>'.$value->get('content').'</p>';
+                $html .= '<hr>';
             }
 
             $app->response->set('content', $html);
@@ -57,7 +57,10 @@ class BlogProvider extends \Bono\Provider\Provider{
 
             $html = '<h1>'.$model->get('title').'</h1>';
             $html .= '<p>'.$model->get('content').'</p>';
-            $html .= '<a href="'.URL::site('entry/'.$id.'/edit').'">Edit</a>';
+
+            if (Auth::check()) {
+                $html .= '<a href="'.URL::site('entry/'.$id.'/edit').'">Edit</a>';
+            }
 
             $app->response->set('content', $html);
 

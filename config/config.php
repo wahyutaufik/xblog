@@ -66,10 +66,15 @@ return array(
     'auth' => array(
         'allow' => array(
             '/' => NULL,
+            '/entry/*' => NULL,
             '/login' => NULL,
             '/logout' => NULL,
             '/auth' => NULL,
         ),
+        'restricted' => array(
+            '/entry/create' => NULL,
+            '/entry/*/edit' => NULL,
+        )
     ),
     'component.tree' => array(
         'mapping' => array(),
