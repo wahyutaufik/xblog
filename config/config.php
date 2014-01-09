@@ -58,6 +58,12 @@ return array(
                 'schema' => array(
                     'title' => String::getInstance('title'),
                     'content' => String::getInstance('content'),
+                    'tags' => String::getInstance('tags'),
+                )
+            ),
+            'Tags' => array(
+                'schema' => array(
+                    'description' => String::getInstance('description'),
                 )
             )
         ),

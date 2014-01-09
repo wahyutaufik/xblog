@@ -1,3 +1,10 @@
+<?php
+use \Bono\App;
+
+$_app = App::getInstance();
+$_controller = $_app->controller;
+
+?>
 <form action="" method="POST">
     <input type="hidden" name="confirm" value="1">
     <fieldset>
@@ -5,5 +12,5 @@
     </fieldset>
 
     <input type="submit" value="OK">
-    <a href="./" class="button">Cancel</a>
+    <a href="<?php echo \Bono\Helper\URL::site($_controller->getRedirectUri()) ?>" class="button">Cancel</a>
 </form>

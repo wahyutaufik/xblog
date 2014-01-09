@@ -23,7 +23,11 @@ class BlogProvider extends \Bono\Provider\Provider{
             foreach ($model as $key => $value) {
                 $html .= '<a href="'.URL::site('/entry/'.$value->get('$id')).'"><h1>'.$value->get('title').'</h1></a>';
                 $html .= '<p>'.nl2br(substr($value->get('content'), 0, 100)).' ...</p>';
+                $html .= '<a href="#">'.$value->get('tags').'</a>';
+                $html .= '&nbsp;';
+                $html .= '<span>By '.$value->get('$created_by').' at '.$value->get('$created_time').'</span>';
                 if (Auth::check()) {
+                    $html .= '&nbsp;';
                     $html .= '<a href="'.URL::site('entry/'.$value->get('$id').'/edit').'">Edit</a>';
                     $html .= '&nbsp;';
                     $html .= '<a href="'.URL::site('entry/'.$value->get('$id').'/delete').'">Delete</a>';
@@ -45,9 +49,19 @@ class BlogProvider extends \Bono\Provider\Provider{
         $this->app->post('/entry/:id/create', function() use ($app) {
             $collection = Norm::factory('Entry');
 
+            // Creating new tags
+            if (@$_POST['tags'] == 'create') {
+                $_collection = Norm::factory('Tags');
+                $_model = $_collection->newInstance();
+                $_model->set('description', $_POST['newTags']);
+                $_model->save();
+                $_POST['tags'] = $_model->get('$id');
+            }
+
             $model = $collection->newInstance();
             $model->set('title', $_POST['title']);
             $model->set('content', $_POST['content']);
+            $model->set('tags', @$_POST['tags']);
             $model->save();
 
             $app->response->redirect('/');
@@ -82,10 +96,19 @@ class BlogProvider extends \Bono\Provider\Provider{
         });
 
         $this->app->post('/entry/:id/edit', function($id) use ($app) {
+            if (@$_POST['tags'] == 'create') {
+                $_collection = Norm::factory('Tags');
+                $_model = $_collection->newInstance();
+                $_model->set('description', $_POST['newTags']);
+                $_model->save();
+                $_POST['tags'] = $_model->get('$id');
+            }
+
             $collection = Norm::factory('Entry');
             $model = $collection->findOne($id);
             $model->set('title', $_POST['title']);
             $model->set('content', $_POST['content']);
+            $model->set('tags', @$_POST['tags']);
             $model->save();
 
             $app->flash('info', 'Successfully updated!');

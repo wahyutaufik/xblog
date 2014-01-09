@@ -51,10 +51,10 @@ use \App\Auth\Auth;
         </div>
         <?php endif ?>
         <div class="row">
-            <div class="span-2">
+            <div class="span-3">
                 <?php echo @$tree; ?>
             </div>
-            <div class="span-10">
+            <div class="span-9">
                 <div class="">
                     <?php echo @$content; ?>
                 </div>

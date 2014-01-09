@@ -1,6 +1,9 @@
 <?php
 use \App\Component\Form;
+use \Bono\App;
 
+$_app = App::getInstance();
+$_controller = $_app->controller;
 $_form = new Form($_controller->clazz);
 ?>
 <h2><?php echo $_controller->clazz ?></h2>
