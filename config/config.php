@@ -25,7 +25,6 @@ return array(
     'bono.controllers' => array(
         'default' => '\\Norm\\Controller\\NormController',
         'mapping' => array(
-            '/entry' => NULL
         ),
     ),
     'bono.contentNegotiator' => array(

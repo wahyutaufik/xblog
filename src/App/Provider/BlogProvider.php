@@ -22,7 +22,12 @@ class BlogProvider extends \Bono\Provider\Provider{
             $html = '';
             foreach ($model as $key => $value) {
                 $html .= '<a href="'.URL::site('/entry/'.$value->get('$id')).'"><h1>'.$value->get('title').'</h1></a>';
-                $html .= '<p>'.$value->get('content').'</p>';
+                $html .= '<p>'.nl2br(substr($value->get('content'), 0, 100)).' ...</p>';
+                if (Auth::check()) {
+                    $html .= '<a href="'.URL::site('entry/'.$value->get('$id').'/edit').'">Edit</a>';
+                    $html .= '&nbsp;';
+                    $html .= '<a href="'.URL::site('entry/'.$value->get('$id').'/delete').'">Delete</a>';
+                }
                 $html .= '<hr>';
             }
 
@@ -31,13 +36,13 @@ class BlogProvider extends \Bono\Provider\Provider{
             $app->response->template('layout');
         });
 
-        $this->app->get('/entry/create', function() use ($app) {
+        $this->app->get('/entry/:id/create', function() use ($app) {
             $_form = new Form();
             $app->response->template('layout');
             $app->response->set('content', $_form->show());
         });
 
-        $this->app->post('/entry/create', function() use ($app) {
+        $this->app->post('/entry/:id/create', function() use ($app) {
             $collection = Norm::factory('Entry');
 
             $model = $collection->newInstance();
@@ -56,10 +61,12 @@ class BlogProvider extends \Bono\Provider\Provider{
             $app->response->set('tree', $_tree->show());
 
             $html = '<h1>'.$model->get('title').'</h1>';
-            $html .= '<p>'.$model->get('content').'</p>';
+            $html .= '<p>'.nl2br($model->get('content')).'</p>';
 
             if (Auth::check()) {
                 $html .= '<a href="'.URL::site('entry/'.$id.'/edit').'">Edit</a>';
+                $html .= '&nbsp;';
+                $html .= '<a href="'.URL::site('entry/'.$id.'/delete').'">Delete</a>';
             }
 
             $app->response->set('content', $html);
@@ -83,6 +90,32 @@ class BlogProvider extends \Bono\Provider\Provider{
 
             $app->flash('info', 'Successfully updated!');
             $app->response->redirect('/entry/'.$id.'/edit');
+        });
+
+        $this->app->get('/entry/:id/delete', function($id) use ($app) {
+            $url = (substr($this->app->request->getPathInfo(), -1) == '/') ? substr($$this->app->request->getPathInfo(), 0, -1) : $this->app->request->getPathInfo();
+            $urlparts = explode('/', $url);
+            array_pop($urlparts);
+            $url = implode($urlparts, '/');
+
+            $html = '<form action="" method="POST">';
+            $html .= '<input type="hidden" name="confirm" value="1">';
+            $html .= '<fieldset>Are you sure want to delete?</fieldset>';
+            $html .= '<input type="submit" value="OK">';
+            $html .= '<a href="'.URL::site($url).'" class="button">Cancel</a>';
+            $html .= '</form>';
+
+            $app->response->set('content', $html);
+
+            $app->response->template('layout');
+        });
+
+        $this->app->post('/entry/:id/delete', function($id) use ($app) {
+            $collection = Norm::factory('Entry');
+            $model = $collection->findOne($id);
+            $model->remove();
+            $app->flash('info', 'Successfully deleted!');
+            $app->response->redirect('/');
         });
     }
 }

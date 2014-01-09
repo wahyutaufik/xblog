@@ -1,16 +1,23 @@
 {
-    "name": "xinix/blog",
-    "description": "Blog",
-    "version": "0.0.1",
-    "autoload": {
-        "psr-0": {
-            "App": "src/",
-            "Bono": "/home/alfa/Workspace/internal/bono/src",
-            "Norm": "/home/alfa/Workspace/internal/norm/src"
-        }
-    },
-    "require": {
-        "xinix-technology/norm": "~0.1.0",
-        "xinix-technology/bono": "~0.1.0"
+  "name": "xinix/blog",
+  "description": "Blog",
+  "version": "0.0.1",
+  "autoload": {
+    "psr-0": {
+      "App": "src/",
+      "Bono": "/home/alfa/Workspace/internal/bono/src",
+      "Norm": "/home/alfa/Workspace/internal/norm/src"
     }
+  },
+  "require": {
+    "xinix-technology/norm": "~0.1.0",
+    "xinix-technology/bono": "~0.1.0",
+    "reekoheek/bono-component": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:reekoheek/bono-component.git"
+    }
+  ]
 }

@@ -1,7 +1,10 @@
 <?php
-use \App\Component\Table;
+use \ROH\BonoComponent\PlainTable as Table;
 use \App\Component\SearchButtonGroup;
+use \Bono\App;
 
+$_app = App::getInstance();
+$_controller = $_app->controller;
 $_table = new Table($_controller->clazz);
 $_searchButtonGroup = new SearchButtonGroup();
 ?>

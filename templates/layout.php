@@ -27,7 +27,7 @@ use \App\Auth\Auth;
             <li><a href="<?php echo URL::site('/') ?>" class="button">Blog</a></li>
             <?php if(Auth::check()): ?>
                 <li><a href="<?php echo URL::site('/logout') ?>" class="button">Logout</a></li>
-                <li><a href="<?php echo URL::site('/entry/create') ?>" class="button">Create Entry</a></li>
+                <li><a href="<?php echo URL::site('/entry/null/create') ?>" class="button">Create Entry</a></li>
             <?php else: ?>
                 <li><a href="<?php echo URL::site('/login') ?>" class="button">Login</a></li>
             <?php endif ?>
