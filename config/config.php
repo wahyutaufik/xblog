@@ -74,7 +74,8 @@ return array(
         'restricted' => array(
             '/entry/create' => NULL,
             '/entry/*/edit' => NULL,
-        )
+        ),
+        'urlServiceProvider' => 'http://localhost/acc/',
     ),
     'component.tree' => array(
         'mapping' => array(),

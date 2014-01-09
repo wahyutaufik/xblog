@@ -2,6 +2,7 @@
 
 namespace App\Auth;
 use \Norm\Norm;
+use \Bono\App;
 
 class Auth {
 
@@ -10,7 +11,10 @@ class Auth {
     }
 
     public static function authenticate($service) {
-        $serviceUrl = 'http://localhost/acc/auth';
+        $app = \Bono\App::getInstance();
+        $config = $app->config('auth');
+
+        $serviceUrl = $config['urlServiceProvider'].'auth';
 
         $curl = curl_init($serviceUrl);
 
@@ -50,7 +54,10 @@ class Auth {
     }
 
     public static function deauthenticate() {
-        $serviceUrl = 'http://localhost/acc/deauth';
+        $app = \Bono\App::getInstance();
+        $config = $app->config('auth');
+
+        $serviceUrl = $config['urlServiceProvider'].'deauth';
 
         $app = \Bono\App::getInstance();
 

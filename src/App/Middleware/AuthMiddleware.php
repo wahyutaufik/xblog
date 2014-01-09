@@ -22,8 +22,11 @@ class AuthMiddleware extends \Slim\Middleware {
         $response = $this->app->response;
 
         $this->app->get('/login', function() use($app, $response) {
+            $config = $this->app->config('auth');
+
             $selfUrl = 'http://'.$_SERVER['HTTP_HOST'].\Bono\Helper\URL::base('auth');
-            $this->app->response->redirect('http://localhost/acc/login?@continue='.urlencode($selfUrl));
+
+            $this->app->response->redirect($config['urlServiceProvider'].'login?@continue='.urlencode($selfUrl));
         });
 
         $this->app->get('/auth', function() use($app, $response) {
@@ -44,10 +47,14 @@ class AuthMiddleware extends \Slim\Middleware {
         });
 
         $this->app->get('/logout', function() use($app, $response) {
+            $config = $this->app->config('auth');
+
             Auth::deauthenticate();
             Auth::logout();
+
             $selfUrl = 'http://'.$_SERVER['HTTP_HOST'].\Bono\Helper\URL::base();
-            $this->app->response->redirect('http://localhost/acc/logout?@continue='.urlencode($selfUrl));
+
+            $this->app->response->redirect($config['urlServiceProvider'].'logout?@continue='.urlencode($selfUrl));
         });
 
         $allow = false;
@@ -58,7 +65,7 @@ class AuthMiddleware extends \Slim\Middleware {
 
         if (!$allow && !Auth::check()) {
             $selfUrl = 'http://'.$_SERVER['HTTP_HOST'].\Bono\Helper\URL::base('auth');
-            $this->app->response->redirect('http://localhost/acc/login?@continue='.urlencode($selfUrl));
+            $this->app->response->redirect($config['urlServiceProvider'].'login?@continue='.urlencode($selfUrl));
         } else {
             $this->next->call();
         }
