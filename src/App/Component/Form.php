@@ -47,17 +47,12 @@ class Form {
                     </div>
                 </div>
             </div>';
+        $dropdown = new \App\Component\Dropdown('tags');
         $html .=
             '<div class="wrapper tags">
-                <label>Tags</label>
-                <select name="tags">
-                    <option value="null">Select tags</option>';
-        foreach ($tags as $key => $value) {
-            $html .= '<option value="'.$value['$id'].'" '.($_tags == $value['$id'] ? 'selected' : '').'>'.$value['description'].'</option>';
-        }
-        $html .= '<option value="create">Create new tags</option>';
-        $html .='</select>
-            </div>';
+                <label>Tags</label>';
+        $html .= $dropdown->show($tags, $_tags, '$id', 'description', '<option value="create">Create new tags</option>');
+        $html .= '</div>';
         $html .=
             '<div class="wrapper">
                 <input type="submit" value="Submit">
