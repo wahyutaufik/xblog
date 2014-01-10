@@ -10,6 +10,7 @@ use \Norm\Schema\Reference;
 return array(
     'app.salt' => '19ca502ac4f23aec501c079fd02279931e414817f20ae3f68853e720122036cc',
     'appId' => '5ca5538009abb60291251ed99ec575e6658fb8c9',
+    'secret' => 'fc683cd9ed1990ca2ea10b84e5e6fba048c24929',
     'bono.prettifyURL' => true,
     'bono.providers' => array(
         '\\Bono\\Provider\\LanguageProvider',

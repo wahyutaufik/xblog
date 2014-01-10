@@ -33,13 +33,12 @@ class AuthMiddleware extends \Slim\Middleware {
         $this->app->get('/auth', function() use($app, $response) {
             $get = $app->request->get();
             $appId = $this->app->config('appId');
-            $salt = $this->app->config('app.salt');
-            $sid = hash('sha1', $appId.$salt);
+            $secret = $this->app->config('secret');
 
             $service = array(
                 'ticket' => $get['@ticket'],
                 'appId'  => $appId,
-                'sid'    => $sid
+                'secret'  => $secret
             );
 
             Auth::authenticate($service);

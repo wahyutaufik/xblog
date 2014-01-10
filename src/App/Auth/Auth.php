@@ -27,7 +27,9 @@ class Auth {
         if ($curlResponse !== false) {
             $decoded = json_decode($curlResponse, true);
 
-            if (!$decoded['error']) {
+            // var_dump($decoded); exit;
+
+            if (!$decoded['error'] && !is_null($decoded)) {
                 $collection = Norm::factory('User');
                 $model = $collection->findOne(array('username' => $decoded['user']['username']));
                 if (is_null($model)) {
@@ -64,6 +66,7 @@ class Auth {
         $service = array(
             'username' => @$_SESSION['user']->username,
             'appId' => $app->config('appId'),
+            'secret' => $app->config('secret'),
             'ticket' => @$_SESSION['user']->ticket,
         );
 
