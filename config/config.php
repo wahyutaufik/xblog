@@ -55,10 +55,11 @@ return array(
                 ),
             ),
             'Entry' => array(
+                'model' => '\\App\\Model\\Entry',
                 'schema' => array(
                     'title' => String::getInstance('title'),
                     'content' => String::getInstance('content'),
-                    'tags' => String::getInstance('tags'),
+                    'tags' => Reference::getInstance('tags')->to('Tags', 'description'),
                 )
             ),
             'Tags' => array(

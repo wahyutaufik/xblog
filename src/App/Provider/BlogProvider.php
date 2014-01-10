@@ -23,9 +23,12 @@ class BlogProvider extends \Bono\Provider\Provider{
             foreach ($model as $key => $value) {
                 $html .= '<a href="'.URL::site('/entry/'.$value->get('$id')).'"><h1>'.$value->get('title').'</h1></a>';
                 $html .= '<p>'.nl2br(substr($value->get('content'), 0, 100)).' ...</p>';
-                $html .= '<a href="#">'.$value->get('tags').'</a>';
+                $html .= '<a href="#">'.$value['tags']['description'].'</a>';
                 $html .= '&nbsp;';
-                $html .= '<span>By '.$value->get('$created_by').' at '.$value->get('$created_time').'</span>';
+
+                $date = new \DateTime($value->get('$created_time'));
+                $html .= 'By <a href="#">'.$value['publisher']['username'].'</a href="#">';
+                $html .= '<span> at '.$date->format('d-M-Y h:m:s').'</span>';
                 if (Auth::check()) {
                     $html .= '&nbsp;';
                     $html .= '<a href="'.URL::site('entry/'.$value->get('$id').'/edit').'">Edit</a>';
